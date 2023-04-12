@@ -1,0 +1,32 @@
+.tabcontainer {
+   
+   
+    margin-top: 0px;
+    margin-left: -83px;
+  }
+  
+  .back-button {
+    margin-left: 26px;
+    color: #fff;
+    background-color: #0d55da;
+    border: none;
+    padding: 0 20px;
+    width: 226px;
+    height: 70px;
+  }
+  
+/*   
+  .page-title {
+    margin-left: 60px;
+    border: none;
+    color: white;
+    background-color: rgb(13, 85, 218);
+  } */
+  
+  /* .document {
+    margin-left: 60px;
+    border: none;
+    color: white;
+    background-color: rgb(13, 85, 218);
+  }
+   */
