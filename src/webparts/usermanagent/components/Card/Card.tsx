@@ -34,19 +34,13 @@ const Card: React.FC<CardProps> = ({ users }) => {
   const [test, setTest] = useState<boolean>(true);
   const [showCard, setShowCard] = useState<boolean>(true);
   const [notFound, setNotFound] = useState<boolean>(false);
-   //const [imageSrc, setImageSrc] = useState<string>("");
-  // const [imageUrl, setImageUrl] = useState('');
+  
 
 console.log("card testttttttttttt");
 
 console.log(employees,"employeessssssssssss");
 
-  // useEffect(() => {
-  //   sp.web.lists.getByTitle("Contactslist").items().then((res) => {
-  //     console.log(res,"+++++++++++++++++++++++++");
-  //   })
-  // }, []);
-
+  
   React.useEffect(() => {
     (async () => {
       console.log("first")
@@ -72,7 +66,7 @@ console.log(employees,"employeessssssssssss");
     setTest(!test)
      setUserList(updatedList);
 
-    // setUserList(updatedList);
+    
     // Setting showCard back to true to show the user list again
     setShowCard(true);
     // const contactList = await sp.web.lists.getByTitle("Contactslist");
@@ -204,7 +198,7 @@ console.log(employees,"employeessssssssssss");
                   console.log(item,"hhhhh")
                   return (
                     <div key={item.Id} className='card'>
-                      <div className='img'>
+                      <div className='imge'>
               
                           
                         

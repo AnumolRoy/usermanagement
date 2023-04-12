@@ -204,7 +204,7 @@ function AddUser({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
           <button className='savebutton' onClick={handleUploadClick}>save</button>
           {selectedFile && (
             <div>
-              <p>Selected file: {selectedFile.name}</p>
+              {/* <p>Selected file: {selectedFile.name}</p> */}
               {/* <img src={URL.createObjectURL(selectedFile)} alt="Selected file preview" /> */}
             </div>
           )}
