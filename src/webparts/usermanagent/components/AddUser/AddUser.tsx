@@ -23,10 +23,10 @@ interface User {
   Email: string;
   Gender: string;
   Designation: string;
-  image?: string;
+  url?: string;
 }
 
-function Update({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
+function AddUser({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
   const [name, setName] = useState('');
   const [Email, setEmail] = useState('');
   const [Gender, setGender] = useState('');
@@ -109,7 +109,7 @@ function Update({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
       Name: newUser.name,
       email: newUser.Email,
       gender: newUser.Gender,
-      designation: newUser.Designation,
+      designation: newUser.Designation
     });
     console.log(resp.data.Id);
     const folderId = resp.data.Id;
@@ -132,7 +132,7 @@ function Update({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
 
       
     const documentLibraryNameImage = `DocumentAnu/${folderId}`;
-    const fileNamePath = `profilepic.png`;
+    const fileNamePath = `profile.png`;
 
     let result: any;
     if (selectedFile.size <= 10485760) {
@@ -142,46 +142,20 @@ function Update({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
       result = await sp.web.getFolderByServerRelativePath(documentLibraryNameImage).files.addUsingPath(fileNamePath, selectedFile, { Overwrite: true });
       console.log("url test", result)
 
-    } else {
-      // large upload
-      result = await sp.web.getFolderByServerRelativePath(documentLibraryNameImage).files.addChunked(fileNamePath, selectedFile, data => {
-        console.log(`progress`);
-      }, true);
-    }
+    } 
 
-    // console.log(`Result of file upload: ${JSON.stringify(result)}`);
     console.log("url test", result?.data?.ServerRelativeUrl)
-    const url = ` https://2mxff3.sharepoint.com/sites/ContactsAnu/DocumentAnu/${folderId}/profilepic.png`
-    const list = sp.web.lists.getByTitle("Contactslist");
+
+     const imageurl = ` https://2mxff3.sharepoint.com/sites/ContactsAnu/DocumentAnu/${folderId}/profile.png`
+   const list =   sp.web.lists.getByTitle("Contactslist");
     console.log(folderId)
-    list.items.getById(folderId).update({
-      Image: url
-    });
+   await list.items.getById(folderId).update({
+    url:imageurl
+      // url: result?.data?.ServerRelativeUrl,
+      // imageurl: "test"
 
-    
-    // const fileName = selectedFile.name;
-    // console.log(fileName);
-
-    // const fileUrl = `${documentLibraryNameImage}/${fileName}`;
-    // const fileContent = selectedFile;
-
-    // try {
-    
-    //   const folderUrl = `${sp.web.toUrl()}/${documentLibraryName}/${newFolderName}`;
-    //   const folder = sp.web.getFolderByServerRelativePath(folderUrl);
-    //   // console.log(resp.data.serverRelativeurl);
-      
-
-    //   await folder.files.addUsingPath(fileUrl, fileContent);
-
-    //   console.log(`File '${fileName}' uploaded successfully to folder '${newFolderName}'.`);
-    // } catch (error) {
-    //   console.error(`Error uploading file to folder: ${error}`);
-    // }
-  };
-
-
-
+    })
+  }
 
   // Return the form with input fields for the user's name, email, gender, and designation, along with Save and Cancel buttons
   return (
@@ -226,19 +200,18 @@ function Update({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
 
 
         <div>
-          {/* <input type="file" name="myFile" onChange={ handleImageChange} /> */}
           <input type="file" onChange={handleFileInputChange} />
-          <button onClick={handleUploadClick}>Upload</button>
+          <button className='savebutton' onClick={handleUploadClick}>save</button>
           {selectedFile && (
             <div>
               <p>Selected file: {selectedFile.name}</p>
               {/* <img src={URL.createObjectURL(selectedFile)} alt="Selected file preview" /> */}
             </div>
           )}
+         <button className='cancelbutton' type="button" onClick={() => setShowCard(true)}>Cancel</button>
+
         </div>
 
-        {/* <button className='savebutton' type="submit">Save</button> */}
-        <button className='cancelbutton' type="button" onClick={() => setShowCard(true)}>Cancel</button>
       </form>
 
 
@@ -248,4 +221,4 @@ function Update({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
   );
 }
 
-export default Update;
+export default AddUser;

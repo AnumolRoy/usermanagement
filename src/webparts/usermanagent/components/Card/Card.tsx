@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from 'react';
+import { useState} from 'react';
 import * as React from "react"
 import Search from '../../pages/Search';
 import AddUser from '../AddUser/AddUser';
@@ -20,7 +20,7 @@ interface User {
   Gender: string;
   Designation: string;
   Id: number
-  image: string;
+  url?: string;
 }
 
 interface CardProps {
@@ -47,7 +47,22 @@ console.log(employees,"employeessssssssssss");
   //   })
   // }, []);
 
-
+  React.useEffect(() => {
+    (async () => {
+      console.log("first")
+      const items: any = await sp.web.lists.getByTitle('Contactslist').items();
+      const newEmployees = items.map((item: any) => ({
+        id: item.Id ,
+        name: item.name,
+        email: item.email,
+        gender: item.gender,
+        designation: item.designation,
+        url : item.url,
+      }));
+      setUserList(newEmployees);
+      console.log(`employees+++++++++++++++++++++++ ${employees}`)
+    })();
+  }, []);
  
   // Function to handle adding a new user to the user list
   const handleAddUser = async (newUser: User) => {
@@ -55,7 +70,7 @@ console.log(employees,"employeessssssssssss");
 
     const updatedList = [...userList, newUser];
     setTest(!test)
-    // setUserList(updatedList);
+     setUserList(updatedList);
 
     // setUserList(updatedList);
     // Setting showCard back to true to show the user list again
@@ -119,7 +134,8 @@ console.log(employees,"employeessssssssssss");
           Name: name,
           email: Email,
           gender: Gender,
-          designation: Designation
+          designation: Designation,
+        
         });
 
         console.log(`Item ${Id} updated successfully.`);
@@ -185,14 +201,17 @@ console.log(employees,"employeessssssssssss");
 
                 {/* Mapping over the user list to show each user */}
                 {userList.map((item) => {
+                  console.log(item,"hhhhh")
                   return (
                     <div key={item.Id} className='card'>
                       <div className='img'>
-                 {/* {console.log(item.image,"----------------------------------------------------")} */}
-                          {/* <img src="https://2mxff3.sharepoint.com/sites/ContactsAnu/DocumentAnu%2FADHAR.jpeg" alt='User Image' /> */}
+              
+                          
                         
-                        {item.image && (
-                          <img src={`${item.image}`} alt='User Image' />
+                        {item.url ? (
+                          <img src={`${item.url}`} alt='User Image' />
+                        ):(
+                          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkcU_1v_nc5jW8YrBvQVAwt8DUsbJzrK4T6w&usqp=CAU" alt="" />
                         )}
                       </div>
                       <div className="details" style={{ fontWeight: "bold" }}>
@@ -200,7 +219,6 @@ console.log(employees,"employeessssssssssss");
                         <p>email: {item.Email}</p>
                         <p>gender: {item.Gender}</p>
                         <p>designation: {item.Designation}</p>
-
                       </div>
                       <div >
                         <button className='deletebutton' onClick={() => handleDelete(item.Id)}>Delete</button>

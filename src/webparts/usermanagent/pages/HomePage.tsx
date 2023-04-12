@@ -21,6 +21,7 @@ function HomePage(): JSX.Element {
   console.log("//////////////////////////////////////////////////////////////");
   useEffect(() => {
     (async () => {
+      console.log("first")
       const items: any = await sp.web.lists.getByTitle('Contactslist').items();
       const newEmployees = items.map((item: any) => ({
         id: item.Id ,
@@ -28,7 +29,7 @@ function HomePage(): JSX.Element {
         email: item.email,
         gender: item.gender,
         designation: item.designation,
-        image_url : item.Image_url,
+        url : item.url,
       }));
       setEmployees(newEmployees);
       console.log(`employees+++++++++++++++++++++++ ${employees}`)

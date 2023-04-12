@@ -46,7 +46,12 @@ input {
   background-color: rgb(13, 85, 218);
 }
 .cancelbutton{
+  /* margin-top: 78px;
+  margin-left: 184px;
+  background-color: rgb(13, 85, 218); */
   margin-left: 100px;
+  margin-bottom: 100px;
+  margin-top: 78px;
   background-color: rgb(13, 85, 218);
 }
 
