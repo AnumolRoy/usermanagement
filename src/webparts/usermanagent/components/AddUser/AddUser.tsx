@@ -6,10 +6,8 @@ import "@pnp/sp/items";
 import { sp } from '../../../../spauth';
 import "../../styles/adduser.css"
 import * as React from "react"
-import Tab from '../Tab/Tab';
 // import { useNavigate } from 'react-router-dom';
 
-//  import { IWeb } from "@pnp/sp/webs";
 
 interface AddUserProps {
   onAddUser: (user: User) => void;
@@ -19,18 +17,18 @@ interface AddUserProps {
 
 interface User {
   Id: number;
-  name: string;
-  Email: string;
-  Gender: string;
-  Designation: string;
+  Name: string;
+  email: string;
+  gender: string;
+  designation: string;
   url?: string;
 }
 
 function AddUser({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
-  const [name, setName] = useState('');
-  const [Email, setEmail] = useState('');
-  const [Gender, setGender] = useState('');
-  const [Designation, setDesignation] = useState('');
+  const [Name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [gender, setGender] = useState('');
+  const [designation, setDesignation] = useState('');
   // const [Image, setImage] = useState('');
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -40,10 +38,10 @@ function AddUser({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
 
     const newUser: User = {
       Id: id,
-      name,
-      Email,
-      Gender,
-      Designation
+      Name,
+      email,
+      gender,
+      designation
     };
 
     onAddUser(newUser);
@@ -94,10 +92,10 @@ function AddUser({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
     // const documentLibraryName = "DocumentAnu";
     const newUser: User = {
       Id: id,
-      name,
-      Email,
-      Gender,
-      Designation,
+      Name,
+      email,
+      gender,
+      designation,
 
     };
     console.log(newUser, "new userrrrrrrrrrrrrrrrrrrrrrrrrrr");
@@ -106,10 +104,10 @@ function AddUser({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
     
 
     const resp = await sp.web.lists.getByTitle("Contactslist").items.add({
-      Name: newUser.name,
-      email: newUser.Email,
-      gender: newUser.Gender,
-      designation: newUser.Designation
+      Name: newUser.Name,
+      email: newUser.email,
+      gender: newUser.gender,
+      designation: newUser.designation
     });
     console.log(resp.data.Id);
     const folderId = resp.data.Id;
@@ -160,63 +158,120 @@ function AddUser({ onAddUser, setShowCard, id }: AddUserProps): JSX.Element {
   // Return the form with input fields for the user's name, email, gender, and designation, along with Save and Cancel buttons
   return (
 
-    <div className="userform">
-      <Tab />
-      {/* <div className='dmodal'>
-                      <button className='updatebutton' onClick={() => handleUpdate(item.Id)}>Update</button>
+    // <div className="userform">
+   
+     
+    //   <form className="addform " onSubmit={handleSubmit}>
 
-                    </div> */}
-      <form className="addform " onSubmit={handleSubmit}>
-
-        <div className="enter">
-          <label >
-            Name:
-            <input type="text" className='nameinput' value={name} onChange={(e) => setName(e.target.value)} />
-          </label>
-        </div>
-        <div className="enter1">
-          <label>
-            Email:
-            <input type="email" className='nameinput' value={Email} onChange={(e) => setEmail(e.target.value)} />
-          </label>
-        </div>
-        <div className="enter2">
-          <label>
-            Gender:
-            <select value={Gender} onChange={(e) => setGender(e.target.value)}>
-              <option value="">Choose an option</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
-          </label>
-        </div>
-        <div className="enter3">
-          <label>
-            Designation:
-            <input type="text" value={Designation} className='nameinput' onChange={(e) => setDesignation(e.target.value)} />
-          </label>
-        </div>
+    //     <div className="enter">
+    //       <label >
+    //         Name:
+    //         <input type="text" className='nameinput' value={Name} onChange={(e) => setName(e.target.value)} />
+    //       </label>
+    //     </div>
+    //     <div className="enter1">
+    //       <label>
+    //         Email:
+    //         <input type="email" className='nameinput' value={email} onChange={(e) => setEmail(e.target.value)} />
+    //       </label>
+    //     </div>
+    //     <div className="enter2">
+    //       <label>
+    //         Gender:
+    //         <select value={gender} onChange={(e) => setGender(e.target.value)}>
+    //           <option value="">Choose an option</option>
+    //           <option value="male">Male</option>
+    //           <option value="female">Female</option>
+    //           <option value="other">Other</option>
+    //         </select>
+    //       </label>
+    //     </div>
+    //     <div className="enter3">
+    //       <label>
+    //         Designation:
+    //         <input type="text" value={designation} className='nameinput' onChange={(e) => setDesignation(e.target.value)} />
+    //       </label>
+    //     </div>
 
 
-        <div>
-          <input type="file" onChange={handleFileInputChange} />
-          <button className='savebutton' onClick={handleUploadClick}>save</button>
-          {selectedFile && (
+    //     <div>
+    //       <input type="file" onChange={handleFileInputChange} />
+    //       <button className='savebutton' onClick={handleUploadClick}>save</button>
+    //       {selectedFile && (
+    //         <div>
+    //           {/* <p>Selected file: {selectedFile.name}</p> */}
+    //           {/* <img src={URL.createObjectURL(selectedFile)} alt="Selected file preview" /> */}
+    //         </div>
+    //       )}
+    //      <button className='cancelbutton' type="button" onClick={() => setShowCard(true)}>Cancel</button>
+
+    //     </div>
+
+    //   </form>
+
+
+    // </div>
+<div className="wrapper" >
+	<div className="registration_form">
+		<div className="title">
+		Add Employee
+		</div>
+
+		<form className='' onSubmit={handleSubmit}>
+			<div className="form_wrap">
+				<div className="input_grp">
+					<div className="input_wrap">
+						<label > Name</label>
+						<input type="text"value={Name} onChange={(e) => setName(e.target.value)}/>
+					</div>
+					
+				</div>
+				<div className="input_wrap">
+					<label>Email Address</label>
+					<input type="text" value={email} onChange={(e) => setEmail(e.target.value)}/>
+				</div>
+				<div className="input_wrap">
+					<label>Gender</label>
+					<ul>
+						<li>
+							<label className="radio_wrap">
+								<input type="radio" name="gender" value={gender} onChange={(e) => setGender(e.target.value)} className="input_radio" checked/>
+								<span>Male</span>
+							</label>
+						</li>
+						<li>
+							<label className="radio_wrap">
+								<input type="radio" name="gender"value={gender} onChange={(e) => setGender(e.target.value)} className="input_radio"/>
+								<span>Female</span>
+							</label>
+						</li>
+					</ul>
+				</div>
+				<div className="input_wrap">
+					<label >Designation</label>
+					<input type="text"value={designation} onChange={(e) => setDesignation(e.target.value)}/>
+				</div>
+				{/* <div className="input_wrap">
+					<label >Country</label>
+					<input type="text" id="country"/>
+				</div> */}
+				<div className="input_wrap">
+					<input  type="file" onChange={handleFileInputChange} />
+          <button className='submit_btn' onClick={handleUploadClick}>save</button>
+           {selectedFile && (
             <div>
               {/* <p>Selected file: {selectedFile.name}</p> */}
               {/* <img src={URL.createObjectURL(selectedFile)} alt="Selected file preview" /> */}
             </div>
           )}
-         <button className='cancelbutton' type="button" onClick={() => setShowCard(true)}>Cancel</button>
+         <button className='submit_btn' type="button" onClick={() => setShowCard(true)}>Cancel</button>
 
         </div>
-
-      </form>
-
-
-    </div>
-
+				
+			</div>
+		</form>
+	</div>
+</div>
 
   );
 }

@@ -1,6 +1,6 @@
 import * as React from "react"
 // import { useNavigate } from 'react-router-dom';
-import './Tab.css';
+import '../../styles/tab.css';
 import { Link } from "office-ui-fabric-react";
 
 const Tab: React.FC = () => {
@@ -13,9 +13,9 @@ const Tab: React.FC = () => {
   return (
     <div className="tabcontainer">
       
-      <button className="back-button" >
+      <Link to="/"> <button className="back-button" >
        Back
-      </button>
+      </button></Link>
      <button className="back-button" >
        Profile
       </button>

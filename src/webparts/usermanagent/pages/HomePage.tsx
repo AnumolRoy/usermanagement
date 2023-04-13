@@ -24,8 +24,8 @@ function HomePage(): JSX.Element {
       console.log("first")
       const items: any = await sp.web.lists.getByTitle('Contactslist').items();
       const newEmployees = items.map((item: any) => ({
-        id: item.Id ,
-        name: item.name,
+        Id: item.Id ,
+        Name: item.Name,
         email: item.email,
         gender: item.gender,
         designation: item.designation,
@@ -38,11 +38,6 @@ function HomePage(): JSX.Element {
 
 
 
-  useEffect(() => {
-    sp.web.lists.getByTitle("Contactslist").items().then((res) => {
-      console.log(res,"+++++++++++++++++++++++++");
-    })
-  }, []);
 
   return (
     <div  >

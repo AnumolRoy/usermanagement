@@ -1,0 +1,22 @@
+.profilecontainer{
+    border: 1px solid black;
+    border-radius: 23px;
+    width: 386px;
+    margin-left: 175px;
+    margin-top: 44px;
+    background-color: azure;
+}
+.imageurl{
+    margin-left: 50px;
+    border-radius: 137px;
+    margin-top: 10px;
+}
+.gobackbuttton{
+    background-color: #5060ebd6;
+    color: white;
+    margin-left: 79px;
+    margin-bottom: 10px;
+}
+.profilecontent{
+    margin-left: 145px
+}

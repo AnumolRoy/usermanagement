@@ -7,12 +7,15 @@
   /* display: flex; */
   margin-top: 25px;
   margin-left: -138px;
-  background-color: azure;
+  background-color: #c8cad4;
   padding: 25px;
   }
   
  .imge {
-  border-radius: 123px;
+  border-radius: 109px;
+  width: 167px;
+  height: 100px;
+  margin-left: 16px;
   }
   
   .deletebutton {
@@ -48,7 +51,7 @@
     height: 42px;
     width: 100px;
     cursor: pointer;
-    background-color: rgb(13, 85, 218);
+    background-color: #545871;
  
   }
     

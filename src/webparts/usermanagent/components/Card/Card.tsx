@@ -1,5 +1,5 @@
 
-import { useState} from 'react';
+import { useState,useEffect} from 'react';
 import * as React from "react"
 import Search from '../../pages/Search';
 import AddUser from '../AddUser/AddUser';
@@ -13,12 +13,13 @@ import "../../styles/card.css"
 // import axios from 'axios';
  //import { fileFromServerRelativePath } from '@pnp/sp/presets/all';
  import { EmployeeContext } from '../../context/employeeContext';
+ import { useNavigate } from 'react-router-dom';
 
 interface User {
-  name: string;
-  Email: string;
-  Gender: string;
-  Designation: string;
+  Name: string;
+  email: string;
+  gender: string;
+  designation: string;
   Id: number
   url?: string;
 }
@@ -40,14 +41,15 @@ console.log("card testttttttttttt");
 
 console.log(employees,"employeessssssssssss");
 
-  
-  React.useEffect(() => {
+const navigate = useNavigate();
+
+  useEffect(() => {
     (async () => {
       console.log("first")
       const items: any = await sp.web.lists.getByTitle('Contactslist').items();
       const newEmployees = items.map((item: any) => ({
-        id: item.Id ,
-        name: item.name,
+        Id: item.Id ,
+        Name: item.Name,
         email: item.email,
         gender: item.gender,
         designation: item.designation,
@@ -56,7 +58,7 @@ console.log(employees,"employeessssssssssss");
       setUserList(newEmployees);
       console.log(`employees+++++++++++++++++++++++ ${employees}`)
     })();
-  }, []);
+  }, [users, employees]);
  
   // Function to handle adding a new user to the user list
   const handleAddUser = async (newUser: User) => {
@@ -95,7 +97,9 @@ console.log(employees,"employeessssssssssss");
   async function handleDelete(Id: number): Promise<void> {
     try {
       // Get the list by title
+      console.log(Id);
       sp.web.lists.getByTitle("Contactslist").items.getById(Id).delete();
+
 
 
       // Delete the item by ID
@@ -149,7 +153,7 @@ console.log(employees,"employeessssssssssss");
   const handleSearch = (searchText: string) => {
     if (searchText) {
       const searchedUser = userList.filter((user) =>
-        user.name && user.name.toLowerCase().includes(searchText.toLowerCase())
+        user.Name && user.Name.toLowerCase().includes(searchText.toLowerCase())
       );
       // Updating the user list state with the filtered list
       setUserList(searchedUser);
@@ -165,6 +169,14 @@ console.log(employees,"employeessssssssssss");
 
   console.log("card testttttttttttt");
 
+
+
+
+  const handleCardClick = (Id: string) => {
+    console.log(`Card with id ${Id} clicked`);
+    navigate (`/profilebvc/${Id}` ) 
+
+   }
   return (
 
 
@@ -187,42 +199,42 @@ console.log(employees,"employeessssssssssss");
               </div>
               <Search onSearch={handleSearch} />
             </div>
-            {/* <img src="https://media.gettyimages.com/photos/film-actor-mohanlal-v-nair-jury-member-of-the-cnn-ibn-indian-of-the-picture-id905654972" alt='User Image' /> */}
 
             {userList &&
-              <div className='card-container'>
-                {/* <img src="https://media.gettyimages.com/photos/film-actor-mohanlal-v-nair-jury-member-of-the-cnn-ibn-indian-of-the-picture-id905654972" alt='User Image' /> */}
+              <div className='card-container' >
 
                 {/* Mapping over the user list to show each user */}
                 {userList.map((item) => {
                   console.log(item,"hhhhh")
                   return (
-                    <div key={item.Id} className='card'>
+                    <div key={item.Id} className='card'    onClick={()=>handleCardClick(item.Id.toString())}>
                       <div className='imge'>
               
                           
                         
                         {item.url ? (
-                          <img src={`${item.url}`} alt='User Image' />
-                        ):(
+                          <img src={`${item.url}`} alt='User Image' className='imge' />
+                        )
+                        :(
                           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkcU_1v_nc5jW8YrBvQVAwt8DUsbJzrK4T6w&usqp=CAU" alt="" />
-                        )}
+                        )
+                        }
                       </div>
                       <div className="details" style={{ fontWeight: "bold" }}>
-                        <p>Name: {item.name}</p>
-                        <p>email: {item.Email}</p>
-                        <p>gender: {item.Gender}</p>
-                        <p>designation: {item.Designation}</p>
+                        <p>Name: {item.Name}</p>
+                        <p>email: {item.email}</p>
+                        <p>gender: {item.gender}</p>
+                        <p>designation: {item.designation}</p>
                       </div>
-                      <div >
+                      {/* <div >
                         <button className='deletebutton' onClick={() => handleDelete(item.Id)}>Delete</button>
 
 
                       </div>
                       <div className='dmodal'>
-                        <button className='updatebutton' onClick={() => handleUpdate(item.Id)}>Update</button>
+                        <button className='updatebutton' onClick={() => handleUpdate(item.Id)}>Update</button> */}
 
-                      </div>
+                      {/* </div> */}
 
                     </div>
 

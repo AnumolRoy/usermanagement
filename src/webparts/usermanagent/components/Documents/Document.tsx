@@ -1,61 +1,137 @@
-// import{ useState, useEffect } from "react";
-// import * as React from "react"
+import * as React from 'react';
+import { sp } from '../../../../spauth';
+import { useParams } from 'react-router-dom';
 
-// import { sp } from '../../../../spauth';
-// import "@pnp/sp/webs";
-// import "@pnp/sp/lists";
-// import "@pnp/sp/files";
-// import "@pnp/sp/folders";
 
-// const DocumentLibrary = () => {
-//   const [folders, setFolders] = useState([]);
 
-//   useEffect(() => {
-//     sp.web.lists.getByTitle("DocumentAnu").rootFolder.folders.get().then((data) => {
-//       setFolders(data);
-//     }).catch((error) => {
-//       console.error(error);
-//     });
+
+interface Document {
+    id: number;
+    Name: string;
+    url: string;
+  }
+  const files = [
+    {
+      name: "Document 1",
+      url: "https://example.com/document-1.pdf"
+    },
+    {
+      name: "Document 2",
+      url: "https://example.com/document-2.docx"
+    },
+    {
+      name: "Image 1",
+      url: "https://example.com/image-1.jpg"
+    },
+    {
+      name: "Spreadsheet 1",
+      url: "https://example.com/spreadsheet-1.xlsx"
+    }
+  ];
+  
+  
+  const Documents: React.FC = () => {
+    const [documents] = React.useState<Document[]>([]);
+    const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+    const { Id } = useParams<{ Id: string }>();
+      const emplyeeId = parseInt(Id)
+    // const navigate = useNavigate();
+    console.log(Id)
+  
+    const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files.length > 0) {
+        setSelectedFile(event.target.files[0]);
+      } else {
+        setSelectedFile(null);
+      }
+    };
+  
+    const handleUploadClick = async () => {
+      console.log("handleUpload cicked")
+      if (!selectedFile) {
+        console.error('No file selected');
+        return;
+      }
+  
+      const documentLibraryName = `DocumentAnu/${emplyeeId}`;
+      const fileNamePath = `${selectedFile.name}`;
+  
+  
+      let result: any;
+      if (selectedFile.size <= 10485760) {
+  
+        //  console.log(selectedFile);
+        // small upload
+        result = await sp.web.getFolderByServerRelativePath(documentLibraryName).files.addUsingPath(fileNamePath, selectedFile, { Overwrite: true });
+        console.log("result",result, Id)
+  
+  
+       
+  
+      } else {
+        // large upload
+        result = await sp.web.getFolderByServerRelativePath(documentLibraryName).files.addChunked(fileNamePath, selectedFile, data => {
+          console.log(`progress`);
+        }, true);
+      }
+  
+  
     
-//   }, []);
-
-//   // Map the folders to the table in SharePoint
-//   useEffect(() => {
-//     folders.forEach(async (folder) => {
-//       try {
-//         const list = sp.web.lists.getByTitle("Your List Title");
-//         const item = await list.items.add({
-//           Title: folder.Name,
-//           FolderURL: folder.ServerRelativeUrl,
-//         });
-//         console.log(`Item ${item.data.ID} has been created`);
-//       } catch (error) {
-//         console.error(error);
-//       }
-//     });
-//   }, [folders]);
-
-//   return (
-//     <div>
-//       <table>
-//         <thead>
-//           <tr>
-//             <th>Folder Name</th>
-//             <th>Folder URL</th>
-//           </tr>
-//         </thead>
-//         <tbody>
-//           {folders.map((folder) => (
-//             <tr key={folder.ServerRelativeUrl}>
-//               <td>{folder.Name}</td>
-//               <td>{folder.ServerRelativeUrl}</td>
-//             </tr>
-//           ))}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-
-// export default DocumentLibrary;
+    };
+  
+  
+    React.useEffect(()=> {
+  
+    },[])
+  
+  
+  
+    return (
+      <div>
+        <h1>Documents</h1>
+  
+  
+  
+  
+         <div className="docList">
+        <h1>File List</h1>
+        <ul>
+          {files.map((file) => (
+            <li key={file.name}>
+              <span>{file.name}</span>
+              <button >Download</button>
+            </li>
+          ))}
+        </ul>
+      </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+        <input type="file" onChange={handleFileSelect} />
+        <button type="button" onClick={handleUploadClick}>
+          Upload
+        </button>
+        <ul>
+          {documents.map((document) => (
+            <li key={document.id}>
+              <a href={document.url} target="_blank" rel="noopener noreferrer">
+                {document.Name}
+              </a>
+            </li>
+          ))}
+        </ul>
+        </div>
+    );
+  };
+  
+  export default Documents;
